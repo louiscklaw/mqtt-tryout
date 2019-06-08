@@ -1,9 +1,13 @@
 
+
 // the setup function runs once when you press reset or power the board
 void setup() {
+    pinMode(LED_BUILTIN, OUTPUT);
     Serial.begin(115200);
 
-    pinMode(LED_BUILTIN, OUTPUT);
+
+    setup_DHT();
+
     setup_FS();
 
 
@@ -14,6 +18,8 @@ void loop() {
     update_timeclient();
 
     Serial.println(get_time());
+
+    Serial.println(read_temperature());
 
     delay(1000);
 }
