@@ -2,10 +2,11 @@
 
 const char* ssid = "logic_test";
 const char* password = "1233211234567";
-const char* mqtt_server = "iot.eclipse.org";
 
 void setup_wifi()
 {
+    Serial.println("setting up wifi");
+
   WiFi.begin(ssid, password);
 
   while ( WiFi.status() != WL_CONNECTED ) {

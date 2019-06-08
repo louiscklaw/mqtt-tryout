@@ -5,6 +5,9 @@ void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
     Serial.begin(115200);
 
+    setup_wifi();
+
+    setup_mqtt();
 
     setup_DHT();
 
@@ -19,7 +22,13 @@ void loop() {
 
     Serial.println(get_time());
 
-    Serial.println(read_temperature());
+    float temp = read_temperature();
+    float humid = read_humidity();
+
+    Serial.println(temp);
+
+    publish_Temp(temp,humid);
+    handle_mqtt();
 
     delay(1000);
 }
