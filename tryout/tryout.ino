@@ -9,6 +9,8 @@ void setup() {
 
     setup_wifi();
 
+    setup_HTTPServer();
+
     setup_mqtt();
 
     setup_DHT();
@@ -27,6 +29,8 @@ void loop() {
 
     publish_Temp(temp,humid);
     handle_mqtt();
+
+    handle_webserver(temp, humid);
 
     ledState = blink_LED(ledState);
 }
