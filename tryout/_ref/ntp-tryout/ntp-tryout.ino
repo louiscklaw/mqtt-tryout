@@ -42,6 +42,11 @@ String get_time()
     return strTemp;
 }
 
+void update_timeclient()
+{
+    timeClient.update();
+}
+
 void setup(){
     Serial.begin(115200);
 
@@ -51,7 +56,7 @@ void setup(){
 
 
 void loop() {
-  timeClient.update();
+  update_timeclient();
 
   Serial.println(get_time());
 
