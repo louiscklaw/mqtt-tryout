@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <title>Hello World</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+
+    <!-- browserMqtt.js share in louislabs.com -->
+    <script src="https://share.louislabs.com/$/Eeu2h"></script>
 </head>
 
 <body>
@@ -24,11 +27,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
-                <h1 class="text-center">12.3</h1>
+            <div class="col-md-12">
+                <h1 class="text-center"><div id="temp_value">12.3</div></h1>
             </div>
             <div class="col-md-6">
-                <h1 class="text-center">45.6</h1>
+                <h1 class="text-center"><div id="humid_value">45.6</div></h1>
             </div>
         </div>
     </div>
@@ -36,5 +39,31 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<script>
+    console.log('start');
+    var client = mqtt.connect("wss://iot.eclipse.org:443/ws") // you add a ws:// url here
+    client.subscribe("logictest/DO")
+
+    client.on("message", function (topic, payload) {
+        console.log('message ' + payload);
+        document.getElementById('temp_value').innerHTML=payload;
+        // alert([topic, payload].join(": "))
+    })
+
+    // function test_publish() {
+    //     console.log('button clicked');
+    //     client.publish('logictest/DO', 'helloworld from web');
+    // }
+
+    //   client.publish("logictest/DO", "hello world from web page");
+    //   client.publish("logictest/DO", "hello world from web page");
+    //   client.publish("logictest/DO", "hello world from web page");
+    //   client.publish("logictest/DO", "hello world from web page");
+    //   client.publish("logictest/DO", "hello world from web page");
+
+    console.log('end');
+</script>
 
 </html>

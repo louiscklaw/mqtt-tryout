@@ -3,6 +3,8 @@
 #include "DHT.h"
 #include <PubSubClient.h>
 
+#include "FS.h"
+
 #define DHTTYPE DHT22
 
 const char* ssid = "logic_test";
@@ -130,29 +132,8 @@ void callback(char* topic, byte* payload, unsigned int length) {
 }
 
 String SendHTML(float Temperaturestat, float Humiditystat) {
-  String ptr = "<!DOCTYPE html> <html>\n";
-  ptr += "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\"><meta http-equiv=\"refresh\" content=\"10\">\n";
-  ptr += "<title>ESP8266 Weather Report</title>\n";
-  ptr += "<style>html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center;}\n";
-  ptr += "body{margin-top: 50px;} h1 {color: #444444;margin: 50px auto 30px;}\n";
-  ptr += "p {font-size: 24px;color: #444444;margin-bottom: 10px;}\n";
-  ptr += "</style>\n";
-  ptr += "</head>\n";
-  ptr += "<body>\n";
-  ptr += "<div id=\"webpage\">\n";
-  ptr += "<h1>ESP8266 NodeMCU Weather Report</h1>\n";
-
-  ptr += "<p>Temperature: ";
-  ptr += (int)Temperaturestat;
-  ptr += "°C</p>";
-  ptr += "<p>Humidity: ";
-  ptr += (int)Humiditystat;
-  ptr += "%</p>";
-
-  ptr += "</div>\n";
-  ptr += "</body>\n";
-  ptr += "</html>\n";
-  return ptr;
+    String example_html = "123";
+  return example_html;
 }
 
 void reconnect() {
@@ -179,24 +160,36 @@ void reconnect() {
   }
 }
 
+void setup_FS(){
+
+    SPIFFS.begin();
+    String example_html=readFile("/example.html");
+    Serial.println("content of example_html");
+    Serial.println(example_html);
+
+}
+
 void setup() {
-  // initialize digital pin LED_BUILTIN as an output.
-  Serial.begin(115200);
-  delay(100);
+    // initialize digital pin LED_BUILTIN as an output.
+    Serial.begin(115200);
+    // delay(100);
 
-  setup_LED();
-  setup_WIFI();
-  setup_DHT();
-  setup_HTTPServer();
+    setup_LED();
+    setup_WIFI();
+    setup_DHT();
+    setup_HTTPServer();
 
-  setup_MQTT();
+    setup_MQTT();
+
+    setup_FS();
+
+
 }
 
 
 void loop() {
     float temp = dht.readTemperature();
     float humid = dht.readHumidity();
-    publish_Temp(temp,humid);
 
     ledState = blink_LED(ledState);
 
@@ -204,6 +197,7 @@ void loop() {
     server.handleClient();
 
     // handle mqtt task
+    publish_Temp(temp,humid);
     pubsub_client.loop();
 
 }

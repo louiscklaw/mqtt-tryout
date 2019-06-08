@@ -2,35 +2,40 @@
 
 ESP8266WebServer server(80);
 
-
 float temperature = 0.0;
 float humidity = 0.0;
 
 String example_html = "";
-
-String SendHTML(float Temperaturestat, float Humiditystat) {
-  example_html = readFile("/example.html");
-  return example_html;
-}
+String browserMqtt = "?mqtt";
 
 void handle_OnConnect() {
-
-//   Temperature = dht.readTemperature(); // Gets the values of the temperature
-//   Humidity = dht.readHumidity(); // Gets the values of the humidity
-  server.send(200, "text/html", SendHTML(temperature, humidity));
+    server.send(200, "text/html", example_html);
 }
 
+// void handle_on_js()
+// {
+
+//     server.send(200, "application/javascript; charset=utf-8", browserMqtt);
+// }
+
 void handle_NotFound() {
-  server.send(404, "text/plain", "Not found");
+    server.send(404, "text/plain", "Not found");
 }
 
 void setup_HTTPServer(){
     Serial.println("setup http server");
-  server.on("/", handle_OnConnect);
-  server.onNotFound(handle_NotFound);
 
-  server.begin();
-  Serial.println("HTTP server started");
+    Serial.println("loading resources");
+    example_html = readFile("/example.html");
+
+
+    // load resources
+    server.on("/", handle_OnConnect);
+    // server.on("/js/browserMqtt.js", handle_on_js);
+    server.onNotFound(handle_NotFound);
+
+    server.begin();
+    Serial.println("HTTP server started");
 
 }
 

@@ -1,0 +1,34 @@
+<html>
+<head>
+  <title>test Ws mqtt.js</title>
+</head>
+<body>
+    <script src="./browserMqtt.js"></script>
+    <button onclick="test_publish()">publish</button>
+
+
+<script>
+    console.log('start');
+  var client = mqtt.connect("wss://iot.eclipse.org:443/ws") // you add a ws:// url here
+  client.subscribe("logictest/DO")
+
+  client.on("message", function (topic, payload) {
+      console.log('message '+payload);
+    // alert([topic, payload].join(": "))
+  })
+
+  function test_publish(){
+    console.log('button clicked');
+    client.publish('logictest/DO','helloworld from web');
+  }
+
+//   client.publish("logictest/DO", "hello world from web page");
+//   client.publish("logictest/DO", "hello world from web page");
+//   client.publish("logictest/DO", "hello world from web page");
+//   client.publish("logictest/DO", "hello world from web page");
+//   client.publish("logictest/DO", "hello world from web page");
+
+  console.log('end');
+</script>
+</body>
+</html>

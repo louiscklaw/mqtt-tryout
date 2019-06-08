@@ -7,6 +7,8 @@ void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
     Serial.begin(115200);
 
+    setup_FS();
+
     setup_wifi();
 
     setup_HTTPServer();
@@ -15,7 +17,7 @@ void setup() {
 
     setup_DHT();
 
-    setup_FS();
+
 
     setup_LED();
 }

@@ -1,7 +1,3 @@
-
-#include "FS.h"
-
-
 void removeFile(String path){
   Serial.print("removeFile:");
   Serial.println(path);
@@ -42,10 +38,4 @@ String readFile(String path){
 
 
   return contents;
-}
-
-void setup_FS(){
-    Serial.println("starting FS");
-    SPIFFS.begin();
-
 }
