@@ -43,3 +43,12 @@ String readFile(String path){
 
   return contents;
 }
+
+void setup_FS(){
+
+    SPIFFS.begin();
+    String example_html=readFile("/example.html");
+    Serial.println("content of example_html");
+    Serial.println(example_html);
+
+}
