@@ -9,7 +9,7 @@ float humidity = 0.0;
 String example_html = "";
 
 String SendHTML(float Temperaturestat, float Humiditystat) {
-  example_html = String(Temperaturestat);
+  example_html = String(Temperaturestat) + "," + String(Humiditystat);
   return example_html;
 }
 
