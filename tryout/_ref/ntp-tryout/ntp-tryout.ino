@@ -17,24 +17,43 @@ WiFiUDP ntpUDP;
 // You can specify the time server pool and the offset, (in seconds)
 // additionaly you can specify the update interval (in milliseconds).
 // NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
+
 NTPClient timeClient(ntpUDP, "stdtime.gov.hk", 3600*8, 60000);
 
-void setup(){
-  Serial.begin(115200);
-
+void setup_wifi()
+{
   WiFi.begin(ssid, password);
 
   while ( WiFi.status() != WL_CONNECTED ) {
-    delay ( 500 );
+    delay ( 200 );
     Serial.print ( "." );
   }
-  timeClient.begin();
 }
+
+void setup_NTP()
+{
+    setup_wifi();
+    timeClient.begin();
+}
+
+String get_time()
+{
+    String strTemp = timeClient.getFormattedTime();
+    return strTemp;
+}
+
+void setup(){
+    Serial.begin(115200);
+
+    setup_NTP();
+}
+
+
 
 void loop() {
   timeClient.update();
 
-  Serial.println(timeClient.getFormattedTime());
+  Serial.println(get_time());
 
   delay(1000);
 }
